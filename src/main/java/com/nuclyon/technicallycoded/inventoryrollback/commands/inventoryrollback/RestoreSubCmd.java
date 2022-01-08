@@ -46,12 +46,17 @@ public class RestoreSubCmd extends IRPCommand {
         } else if(args.length == 2) {
             Bortexel.getApiClient().getUserByName(args[1]).executeAsync(user -> {
                 OfflinePlayer rollbackPlayer = Bukkit.getOfflinePlayer(user.getUUID());
+                if (!rollbackPlayer.hasPlayedBefore()) {
+                    sender.sendMessage(MessageData.getPluginPrefix() + MessageData.getNoBackupError(args[1]));
+                    return;
+                }
+
                 InventoryRollbackPlus.getInstance().runSynchronously(() -> {
                     try {
                         openPlayerMenu(staff, rollbackPlayer);
                     } catch (NullPointerException ignored) { }
                 });
-            }, Throwable::printStackTrace);
+            }, error -> sender.sendMessage(MessageData.getPluginPrefix() + MessageData.getNoBackupError(args[1])));
         } else {
             sender.sendMessage(MessageData.getPluginPrefix() + MessageData.getError());
         }
