@@ -65,19 +65,20 @@ public class Commands implements CommandExecutor, TabCompleter {
         } else if (args.length == 2) {
             String[] opts;
 
-            if (args[0].equalsIgnoreCase("forcebackup") ||
-                    args[0].equalsIgnoreCase("forcesave")) {
+            if (args[0].equalsIgnoreCase("forcebackup") || args[0].equalsIgnoreCase("forcesave")) {
                 opts = this.backupOptions;
-
             } else if (args[0].equalsIgnoreCase("import") &&
                     (ImportSubCmd.shouldShowConfirmOption() || args[1].toLowerCase().startsWith("c"))) {
                 opts = this.importOptions;
-
             } else {
                 opts = null;
             }
 
-            if (opts == null) return null;
+            if (args[0].equalsIgnoreCase("restore")) {
+                return null;
+            }
+
+            if (opts == null) return new ArrayList<>();
 
             ArrayList<String> suggestions = new ArrayList<>();
             for (String option : opts) {
@@ -85,7 +86,13 @@ public class Commands implements CommandExecutor, TabCompleter {
                     suggestions.add(option);
             }
             return suggestions;
+        } else if (args.length == 3) {
+            if ((args[0].equalsIgnoreCase("forcebackup") || args[0].equalsIgnoreCase("forcesave"))
+                    && args[1].equalsIgnoreCase("player")) {
+                return null;
+            }
         }
-        return null;
+
+        return new ArrayList<>();
     }
 }

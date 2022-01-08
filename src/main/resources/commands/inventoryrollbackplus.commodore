@@ -1,0 +1,19 @@
+inventoryrollbackplus {
+    enable;
+    disable;
+    forcebackup {
+        all;
+        player {
+            name brigadier:string single_word;
+        }
+    }
+    help;
+    import {
+        confirm;
+    }
+    reload;
+    restore {
+        player brigadier:string single_word;
+    }
+    version;
+}

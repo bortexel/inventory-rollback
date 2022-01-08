@@ -81,6 +81,16 @@
             <artifactId>bortexel4j</artifactId>
             <version>1.3.21</version>
         </dependency>
+        <dependency>
+            <groupId>me.lucko</groupId>
+            <artifactId>commodore</artifactId>
+            <version>1.11</version>
+        </dependency>
+        <dependency>
+            <groupId>me.lucko</groupId>
+            <artifactId>commodore-file</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -92,6 +102,9 @@
                     <exclude>.gitignore</exclude>
                 </excludes>
                 <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>${project.basedir}/src/main/commands</directory>
             </resource>
         </resources>
         <plugins>
