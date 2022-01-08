@@ -16,6 +16,7 @@ import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.util.Consumer;
 
 import java.util.TimeZone;
 import java.util.logging.Level;
@@ -181,6 +182,10 @@ public class InventoryRollbackPlus extends InventoryRollback {
                 return "YAML";
             }
         }));
+    }
+
+    public void runSynchronously(Runnable runnable) {
+        Bukkit.getScheduler().runTask(this, runnable);
     }
 
     // GETTERS

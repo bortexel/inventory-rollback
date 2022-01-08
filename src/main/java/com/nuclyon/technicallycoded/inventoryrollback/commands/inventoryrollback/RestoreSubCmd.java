@@ -12,6 +12,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import ru.bortexel.hooks.Bortexel;
 
 public class RestoreSubCmd extends IRPCommand {
 
@@ -41,14 +42,16 @@ public class RestoreSubCmd extends IRPCommand {
         if (args.length <= 0 || args.length == 1) {
             try {
                 openMainMenu(staff);
-            } catch (NullPointerException e) {}
+            } catch (NullPointerException ignored) { }
         } else if(args.length == 2) {
-            @SuppressWarnings("deprecation")
-            OfflinePlayer rollbackPlayer = Bukkit.getOfflinePlayer(args[1]);
-
-            try {
-                openPlayerMenu(staff, rollbackPlayer);
-            } catch (NullPointerException e) {}
+            Bortexel.getApiClient().getUserByName(args[1]).executeAsync(user -> {
+                OfflinePlayer rollbackPlayer = Bukkit.getOfflinePlayer(user.getUUID());
+                InventoryRollbackPlus.getInstance().runSynchronously(() -> {
+                    try {
+                        openPlayerMenu(staff, rollbackPlayer);
+                    } catch (NullPointerException ignored) { }
+                });
+            }, Throwable::printStackTrace);
         } else {
             sender.sendMessage(MessageData.getPluginPrefix() + MessageData.getError());
         }
