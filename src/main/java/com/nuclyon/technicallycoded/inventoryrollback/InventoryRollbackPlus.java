@@ -16,7 +16,7 @@ import me.danjono.inventoryrollback.listeners.ClickGUI;
 import me.danjono.inventoryrollback.listeners.EventLogs;
 import me.lucko.commodore.Commodore;
 import me.lucko.commodore.CommodoreProvider;
-import me.lucko.commodore.file.CommodoreFileFormat;
+import me.lucko.commodore.file.CommodoreFileReader;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
@@ -79,7 +79,7 @@ public class InventoryRollbackPlus extends InventoryRollback {
 
         if (CommodoreProvider.isSupported()) {
             try {
-                LiteralCommandNode<Object> commandNode = CommodoreFileFormat.parse(this.getResource("commands/inventoryrollbackplus.commodore"));
+                LiteralCommandNode<Object> commandNode = CommodoreFileReader.INSTANCE.parse(this.getResource("commands/inventoryrollbackplus.commodore"));
                 Commodore commodore = CommodoreProvider.getCommodore(this);
                 commodore.register(plCmd, commandNode);
             } catch (Exception exception) {
